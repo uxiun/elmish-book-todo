@@ -5,14 +5,14 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Types.fs" />
-    <Compile Include="App/Input.fs" />
-    <Compile Include="App/Counter.fs" />
+    <Compile Include="Model.fs" />
+    <Compile Include="App/Part1.fs" />
+    <Compile Include="App/Part2.fs" />
+    <Compile Include="App/Part3.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fable.Elmish.React" Version="4.0.0" />
     <PackageReference Include="Feliz" Version="2.7.0" />
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
