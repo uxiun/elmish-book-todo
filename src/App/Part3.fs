@@ -3,18 +3,21 @@ module Part3
 open Feliz
 open Elmish
 open Elmish.React
+open System
 
 open Helper
 open Util
 
 type Todo = {
-  Id: int
+  Id: Guid
   Description: string
   Completed: bool
 }
 
+type TodoId = Guid
+
 type TodoEditing = {
-  Id: int
+  Id: TodoId
   Description: string
 }
 
@@ -27,11 +30,11 @@ type State = {
 type Msg =
   | SetNewTodo of string
   | AddNewTodo
-  | ToggleCompleted of int
-  | DeleteTodo of int
+  | ToggleCompleted of TodoId
+  | DeleteTodo of TodoId
   | CancelEdit
   | ApplyEdit
-  | StartEdit of int
+  | StartEdit of TodoId
   | SetEditedDescription of string
 
 let edit (todo: Todo) : TodoEditing = {
@@ -50,13 +53,13 @@ let update msg state =
   | SetNewTodo s -> { state with NewTodo = s }
   | AddNewTodo when state.NewTodo = "" -> state
   | AddNewTodo ->
-    let nextId =
-      match state.TodoList with
-      | [] -> 0
-      | todos -> (todos ./ List.maxBy (fun todo -> todo.Id)).Id + 1
+    // let nextId =
+    //   match state.TodoList with
+    //   | [] -> 0
+    //   | todos -> (todos ./ List.maxBy (fun todo -> todo.Id)).Id + 1
 
     let nextTodo: Todo = {
-      Id = nextId
+      Id = Guid.NewGuid()
       Description = state.NewTodo
       Completed = false
     }
@@ -72,14 +75,14 @@ let update msg state =
           TodoList =
             state.TodoList
             |> List.map (fun todo ->
-              if todo.Id = id then
+              if id = todo.Id then
                 { todo with Completed = not todo.Completed }
               else
                 todo
             )
     }
 
-  | DeleteTodo id -> { state with TodoList = state.TodoList |> List.filter (fun todo -> todo.Id <> id) }
+  | DeleteTodo id -> { state with TodoList = state.TodoList |> List.filter (fun todo -> todo.Id = id) }
   | StartEdit id ->
     let todo =
       state.TodoList ./ List.tryFind (fun todo -> todo.Id = id) ./ Option.map edit
