@@ -5,6 +5,8 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helper.fs" />
+    <Compile Include="Util.fs" />
     <Compile Include="Model.fs" />
     <Compile Include="App/Part1.fs" />
     <Compile Include="App/Part2.fs" />

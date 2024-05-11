@@ -4,6 +4,6 @@ open Feliz
 open Elmish
 open Elmish.React
 
-Program.mkSimple Part1.init Part1.update Part1.render
+Program.mkSimple Part2.init Part2.update Part2.render
 |> Program.withReactSynchronous "elmish"
 |> Program.run
