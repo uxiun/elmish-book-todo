@@ -274,7 +274,7 @@ let renderTodo (todo: Todo) (dispatch: Msg -> unit) : ReactElement =
 
   ]
 
-let renderEditForm (editing: TodoEditing) (dispatch: Msg -> unit) =
+let renderEditForm (editing: TodoEditing) (todo: Todo) (dispatch: Msg -> unit) =
   div [ "box" ] [
     div [
       "field"
@@ -301,7 +301,10 @@ let renderEditForm (editing: TodoEditing) (dispatch: Msg -> unit) =
         Html.button [
           prop.classes [
             "button"
-            "is-primary"
+            if editing.Description = todo.Description then
+              "disabled"
+            else
+              "is-primary"
           ]
           prop.onClick (fun _ -> dispatch ApplyEdit)
           prop.children [
@@ -340,9 +343,14 @@ let renderTodoList (state: State) (dispatch: Msg -> unit) : ReactElement =
     ./ Option.map (fun o -> o = todo.Completed)
     ./ Option.defaultValue true
   )
+  ./ List.filter (fun todo ->
+    state.NewTodo.Split null // split by whitespaces
+    ./ Array.forall (fun sep -> todo.Description.Contains sep)
+  )
+
   ./ List.map (fun todo ->
     (match state.TodoEditing with
-     | Some e when e.Id = todo.Id -> renderEditForm e
+     | Some e when e.Id = todo.Id -> renderEditForm e todo
      | _ -> renderTodo todo)
       dispatch
     ./ Html.li
