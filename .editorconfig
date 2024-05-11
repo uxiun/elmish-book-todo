@@ -4,5 +4,7 @@ indent_size = 2
 fsharp_multiline_bracket_style = stroustrup
 fsharp_array_or_list_multiline_formatter = number_of_items
 fsharp_max_array_or_list_number_of_items = 1
+fsharp_record_multiline_formatter = number_of_items
+fsharp_max_record_number_of_items = 1
 fsharp_multi_line_lambda_closing_newline = true
 fsharp_keep_max_number_of_blank_lines = 1
